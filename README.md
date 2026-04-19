@@ -5,9 +5,8 @@ extracts bytes and tries to identify x86 opcodes.
 
 ---
 
-## References
+# Reference
 
-- [x86 Opcode Reference](http://ref.x86asm.net/coder32.html)
-- [OSDev Wiki — x86-64 Instruction Encoding](http://wiki.osdev.org/X86-64_Instruction_Encoding)
-- [Felix Cloutier — x86 Instruction Reference](https://www.felixcloutier.com/x86/)
+[x86 and amd64 instruction reference](https://www.felixcloutier.com/x86/)
+[X86-64 Instruction Encoding](https://wiki.osdev.org/X86-64_Instruction_Encoding)
 
