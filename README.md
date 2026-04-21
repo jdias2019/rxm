@@ -5,9 +5,26 @@ extracts bytes and tries to identify x86 opcodes.
 
 ---
 
-# Reference
+## Setup
 
-[x86 and amd64 instruction reference](https://www.felixcloutier.com/x86/)
+```bash
+git clone https://github.com/jdias2019/rxm
+cd rxm
+chmod +x build.sh
+./build.sh
+```
 
-[X86-64 Instruction Encoding](https://wiki.osdev.org/X86-64_Instruction_Encoding)
+## Usage
+
+```bash
+./rxm <file.bin>
+```
+
+## Example
+
+```bash
+nasm -f bin tests/test.asm -o tests/test.bin
+./rxm tests/test.bin
+```
+
 

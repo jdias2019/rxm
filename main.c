@@ -1,4 +1,3 @@
-#include<stdio.h>
 #include"rxm.h"
 
 int main(int argc, char *argv[]){
@@ -24,13 +23,25 @@ int main(int argc, char *argv[]){
   fread(buffer, 1, size, file);
   fclose(file);
 
-  // print all bytes as hex
-  for (long i = 0; i < size; i++) {
-    printf("%02x ", buffer[i]);
-    if ((i + 1) % 16 == 0) printf("\n");
+  long i = 0;
+  while (i < size){
+    uint8_t opcode = buffer[i];
+    OpcodeInfo *info = &opcode_table[opcode];
+    printf("0x%08lx   ", i); //offset
+    printf("%02x   ", opcode); // raw byte
+
+    // mnemonic 
+    if (info->mnemonic[0] != '\0'){
+      printf("%s", info->mnemonic);
+    
+    }else {
+      printf("???");
+    }
+
+    printf("\n");
+    i += 1 + info->imm_size;
   }
- 
-  printf("\n");  
+
   free(buffer);
 
   return 0;

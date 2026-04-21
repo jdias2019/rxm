@@ -1,6 +1,6 @@
 # Project
 bin/
-tests/
+local_build.sh
 
 # Prerequisites
 *.d
