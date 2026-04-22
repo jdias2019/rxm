@@ -33,9 +33,22 @@ int main(int argc, char *argv[]){
     // mnemonic 
     if (info->mnemonic[0] != '\0'){
       printf("%s", info->mnemonic);
-    
-    }else {
+    } else{
       printf("???");
+    }
+
+  
+    if (info->imm_size > 0){
+      if (info->imm_size == 4){
+        uint32_t imm = (uint32_t)buffer[i+1] 
+                     | (uint32_t)buffer[i+2] << 8
+                     | (uint32_t)buffer[i+3] << 16
+                     | (uint32_t)buffer[i+4] << 24;
+        printf(" 0x%08X", imm);
+      } else if (info->imm_size == 1){
+        uint32_t imm = buffer[i+1];
+        printf(" 0x%02X", imm);
+      }
     }
 
     printf("\n");
