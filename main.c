@@ -1,18 +1,28 @@
 #include"rxm.h"
 
-void decode_modrm(uint8_t *buffer, long i){
+void decode_modrm(uint8_t *buffer, long i, uint8_t opcode){
 
   uint8_t modrm = buffer[i + 1];
   uint8_t mod = (modrm >> 6) & 0x03;
   uint8_t reg = (modrm >> 3) & 0x07;
   uint8_t rm  =  modrm       & 0x07;
 
-  if (mod == 3){
-    printf(" %s, %s", reg_names[reg], reg_names[rm]);
-  } else if (mod == 0){
-    printf(" %s, [%s]", reg_names[reg], reg_names[rm]);
-  } else {
-    printf("???");
+  if (opcode == 0x8B){
+    if (mod == 3){      
+      printf(" %s, %s",    reg_names[reg], reg_names[rm]);
+    } else if (mod == 0){ 
+      printf(" %s, [%s]",  reg_names[reg], reg_names[rm]);
+    } else{               
+      printf("???");
+    }  
+  } else{
+      if (mod == 3){      
+        printf(" %s, %s",    reg_names[rm], reg_names[reg]);
+      } else if (mod == 0){ 
+        printf(" [%s], %s",  reg_names[rm], reg_names[reg]);
+      } else{               
+        printf("???");
+      }
   }
 }
 
@@ -52,7 +62,6 @@ int main(int argc, char *argv[]){
     } else{
       printf("???");
     }
-
   
     if (info->imm_size > 0){
       if (info->imm_size == 4){
@@ -65,16 +74,14 @@ int main(int argc, char *argv[]){
         uint32_t imm = buffer[i+1];
         printf(" 0x%02X", imm);
       }
-      
     }
 
     if (info->has_modrm == 1){
-      decode_modrm(buffer, i);
+      decode_modrm(buffer, i, opcode);
       i += 1 + 1 + info->imm_size;
     } else{
       i += 1 + info->imm_size;
     }
-
     printf("\n");
   }
 
