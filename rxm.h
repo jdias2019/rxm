@@ -11,6 +11,7 @@ typedef struct {
 
 } OpcodeInfo;
 
+static const char *reg_names[] = {"EAX","ECX","EDX","EBX","ESP","EBP","ESI","EDI"};
 
 OpcodeInfo opcode_table[256] = {
 
@@ -82,4 +83,11 @@ OpcodeInfo opcode_table[256] = {
     [0xCB] = {"RETF",  0, 0},
     [0xC2] = {"RET",   0, 2},  // RET imm16
     [0xC9] = {"LEAVE", 0, 0},
+
+    // ModR/M
+    [0x89] = {"MOV", 1, 0},
+    [0x8B] = {"MOV", 1, 0},
+    [0x01] = {"ADD", 1, 0},
+    [0x29] = {"SUB", 1, 0},
+    [0x39] = {"CMP", 1, 0},
 };

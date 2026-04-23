@@ -33,3 +33,14 @@ int3
 pushf
 popf
 leave
+
+; ModR/M - register to register (mod=11)
+mov ebp, esp       
+mov eax, ebp       
+add eax, ebx        
+sub ecx, edx        
+cmp eax, ebx        
+
+; ModR/M - memory (mod=00)
+mov eax, [ebx]      
+mov [eax], ebx     

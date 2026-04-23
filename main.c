@@ -1,5 +1,21 @@
 #include"rxm.h"
 
+void decode_modrm(uint8_t *buffer, long i){
+
+  uint8_t modrm = buffer[i + 1];
+  uint8_t mod = (modrm >> 6) & 0x03;
+  uint8_t reg = (modrm >> 3) & 0x07;
+  uint8_t rm  =  modrm       & 0x07;
+
+  if (mod == 3){
+    printf(" %s, %s", reg_names[reg], reg_names[rm]);
+  } else if (mod == 0){
+    printf(" %s, [%s]", reg_names[reg], reg_names[rm]);
+  } else {
+    printf("???");
+  }
+}
+
 int main(int argc, char *argv[]){
 
   if (argc != 2){
@@ -49,10 +65,17 @@ int main(int argc, char *argv[]){
         uint32_t imm = buffer[i+1];
         printf(" 0x%02X", imm);
       }
+      
+    }
+
+    if (info->has_modrm == 1){
+      decode_modrm(buffer, i);
+      i += 1 + 1 + info->imm_size;
+    } else{
+      i += 1 + info->imm_size;
     }
 
     printf("\n");
-    i += 1 + info->imm_size;
   }
 
   free(buffer);
