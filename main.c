@@ -86,7 +86,6 @@ void decode_modrm(uint8_t *buf, long *ip, uint8_t opcode) {
     snprintf(reg_str, sizeof(reg_str), "%s", reg_names[reg]);
 
     if (mod == 3) {
-        // both operands are registers
         snprintf(rm_str, sizeof(rm_str), "%s", reg_names[rm]);
     } else {
         MemOperand mem = {0};
@@ -154,14 +153,23 @@ int main(int argc, char *argv[]) {
         else
             printf("???");
 
+        if ((opcode >= 0x50 && opcode <= 0x57) || (opcode >= 0x58 && opcode <= 0x5F))
+            printf(" %s", reg_names[opcode & 0x7]);
+
+        if (opcode >= 0xB8 && opcode <= 0xBF)
+            printf(" %s,", reg_names[opcode & 0x7]);
+
         if (info->has_modrm)
             decode_modrm(buffer, &i, opcode);
 
         if (info->imm_size == 4) {
-            uint32_t imm = (uint32_t)read_i32(buffer, &i);
-            printf(" 0x%08X", imm);
+            int32_t  offset = read_i32(buffer, &i);
+            uint32_t target = (uint32_t)(i + offset);
+            printf(" 0x%08X", target);
         } else if (info->imm_size == 1) {
-            printf(" 0x%02X", (uint8_t)buffer[i++]);
+            int8_t   offset = read_i8(buffer, &i);
+            uint32_t target = (uint32_t)(i + offset);
+            printf(" 0x%02X", (uint8_t)target);
         } else if (info->imm_size == 2) {
             uint16_t imm = (uint16_t)buffer[i] | (uint16_t)buffer[i+1] << 8;
             i += 2;
