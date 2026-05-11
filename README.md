@@ -17,13 +17,13 @@ chmod +x build.sh
 ## Usage
 
 ```bash
-./rxm <file.bin>
+./bin/rxm <file.bin>
 ```
 
 ## Example
 
 ```bash
 nasm -f bin tests/test.asm -o tests/test.bin
-./rxm tests/test.bin
+./bin/rxm tests/test.bin
 ```
 
